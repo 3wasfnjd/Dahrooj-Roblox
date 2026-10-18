@@ -32,7 +32,7 @@ def main(path):
             if node is None or node.get("class") != cls:
                 errors.append(f"missing {cls} {label}")
                 continue
-            src = node.findtext("Properties/ProtectedString[@name='Source']") or ""
+            src = next((c.text or "" for c in node.find("Properties") if c.get("name") == "Source"), "")
             if re.sub(r"\s+", "", src) != re.sub(r"\s+", "", f.read_text(encoding="utf-8")):
                 errors.append(f"source mismatch {label}")
             else:
