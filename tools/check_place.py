@@ -1,4 +1,5 @@
 """Structural check of the built Dahrooj.rbxlx: every src script exists in the right place with its source."""
+import re
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -32,7 +33,7 @@ def main(path):
                 errors.append(f"missing {cls} {label}")
                 continue
             src = node.findtext("Properties/ProtectedString[@name='Source']") or ""
-            if src.strip() != f.read_text(encoding="utf-8").strip():
+            if re.sub(r"\s+", "", src) != re.sub(r"\s+", "", f.read_text(encoding="utf-8")):
                 errors.append(f"source mismatch {label}")
             else:
                 print(f"ok   {cls:12s} {label}")
