@@ -41,6 +41,8 @@ def main(path):
     print("ok   Lighting daytime" if clock is not None and float(clock.text) > 6 else "")
     if errors:
         print("\nFAILED:\n  - " + "\n  - ".join(errors))
+        for e in errors[:10]:
+            print("::error::" + e)
         sys.exit(1)
     print("\nPlace file structure OK")
 
